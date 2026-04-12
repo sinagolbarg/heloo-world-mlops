@@ -11,7 +11,8 @@ from sklearn.model_selection import train_test_split
 import joblib
 import os
 import json
-
+import os
+os.makedirs("artifacts", exist_ok=True)
 def main():
     iris = load_iris()
     X, y = iris.data, iris.target
