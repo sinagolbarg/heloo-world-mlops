@@ -52,7 +52,8 @@ def main():
     metrics = {
         "accuracy": float(accuracy),
         "auc": float(auc),
-        "ks": float(ks)
+        "ks": float(ks),
+        "n_train": len(X_train)          # ← NEW LINE
     }
 
     with open(os.path.join("artifacts", "metrics.json"), "w") as f:
@@ -62,6 +63,7 @@ def main():
     print(f"Accuracy: {accuracy:.4f}")
     print(f"AUC: {auc:.4f}")
     print(f"KS: {ks:.4f}")
+    print(f"Training samples: {len(X_train)}")   # ← NEW LINE
 
 if __name__ == "__main__":
     main()
