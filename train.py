@@ -1,12 +1,12 @@
 """
 Simple training script:
-- loads iris dataset from sklearn
+- loads breast cancer dataset from sklearn
 - trains a LogisticRegression
 - saves model to model.pkl
 - computes accuracy, AUC, KS
 """
 
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_breast_cancer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score, roc_curve
@@ -18,17 +18,18 @@ import numpy as np
 os.makedirs("artifacts", exist_ok=True)
 
 def main():
-    iris = load_iris()
-    X, y = iris.data, iris.target
+    # Load dataset
+    data = load_breast_cancer()
+    X = data.data
+    y = data.target  # Already binary: 0 = malignant, 1 = benign
 
-    # Convert to binary classification: setosa (0) vs non-setosa (1)
-    y_binary = (y != 0).astype(int)
-
+    # Train/test split
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y_binary, test_size=0.5, random_state=42
+        X, y, test_size=0.3, random_state=42
     )
 
-    model = LogisticRegression(max_iter=200)
+    # Train model
+    model = LogisticRegression(max_iter=500)
     model.fit(X_train, y_train)
 
     # Save model
@@ -41,8 +42,6 @@ def main():
 
     # Metrics
     accuracy = model.score(X_test, y_test)
-
-    # AUC
     auc = roc_auc_score(y_test, y_proba)
 
     # KS statistic
